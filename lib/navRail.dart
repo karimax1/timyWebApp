@@ -3,6 +3,7 @@ import 'package:timywebapp/pages/channelInfo.dart';
 import 'package:timywebapp/pages/dashboard.dart';
 import 'package:timywebapp/pages/schedule.dart';
 import 'package:timywebapp/pages/shows.dart';
+import 'package:timywebapp/authentication/auth_service.dart';
 
 class NavRail extends StatefulWidget {
   @override
@@ -11,6 +12,7 @@ class NavRail extends StatefulWidget {
 
 class _NavRailState extends State<NavRail> {
   int _selectedIndex = 0;
+  final AuthService _auth = AuthService();
 
   final position = [
     Dashboard(),
@@ -25,14 +27,27 @@ class _NavRailState extends State<NavRail> {
       appBar: AppBar(
         title: Center(child: Text('Timytime')),
         backgroundColor: Colors.grey[900],
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FlatButton.icon(
+              onPressed: () async {
+                await _auth.signOut();
+              },
+              icon: Icon(Icons.person),
+              color: Colors.white,
+              label: Text('Logout'),
+            ),
+          ),
+        ],
       ),
       body: Row(
         children: [
           Container(
             width: 100,
             child: NavigationRail(
-              backgroundColor: Colors.grey[800],
-              elevation: 3,
+              backgroundColor: Colors.grey[900],
+              elevation: 4,
               labelType: NavigationRailLabelType.all,
               groupAlignment: -0.5,
               destinations: [
@@ -70,7 +85,7 @@ class _NavRailState extends State<NavRail> {
             ),
           ),
           Expanded(
-            child: Center(
+            child: Container(
               child: position[_selectedIndex],
             ),
           )
