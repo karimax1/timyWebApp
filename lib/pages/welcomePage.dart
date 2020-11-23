@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:timywebapp/authentication/auth_service.dart';
 import 'package:timywebapp/style/loading.dart';
+import 'package:provider/provider.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -8,7 +10,9 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-  final AuthService _auth = AuthService();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
@@ -93,36 +97,38 @@ class _WelcomePageState extends State<WelcomePage> {
 
   _emailField() {
     return TextFormField(
-        style: TextStyle(color: Colors.black, fontSize: 20.0),
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-            fillColor: Colors.yellow,
-            filled: true,
-            hintText: 'Enter your email',
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(2.0))),
-        validator: (val) => val.isEmpty ? 'Enter an email' : null,
-        onChanged: (val) {
-          setState(() => email = val);
-        });
+      controller: emailController,
+      style: TextStyle(color: Colors.black, fontSize: 20.0),
+      textAlign: TextAlign.center,
+      decoration: InputDecoration(
+          fillColor: Colors.yellow,
+          filled: true,
+          hintText: 'Enter your email',
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0))),
+      validator: (val) => val.isEmpty ? 'Enter an email' : null,
+      // onChanged: (val) {
+      //   setState(() => email = val);
+      // }
+    );
   }
 
   _passwordField() {
     return TextFormField(
-        style: TextStyle(color: Colors.black, fontSize: 20.0),
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-            fillColor: Colors.yellow,
-            filled: true,
-            hintText: 'Enter your password',
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(2.0))),
-        validator: (val) =>
-            val.length < 6 ? 'Enter a password 6+ chars long' : null,
-        obscureText: true,
-        onChanged: (val) {
-          setState(() => password = val);
-        });
+      controller: passwordController,
+      style: TextStyle(color: Colors.black, fontSize: 20.0),
+      textAlign: TextAlign.center,
+      decoration: InputDecoration(
+          fillColor: Colors.yellow,
+          filled: true,
+          hintText: 'Enter your password',
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(2.0))),
+      validator: (val) =>
+          val.length < 6 ? 'Enter a password 6+ chars long' : null,
+      obscureText: true,
+      // onChanged: (val) {
+      //   setState(() => password = val);
+      // }
+    );
   }
 
   _signInBtn() {
@@ -132,17 +138,28 @@ class _WelcomePageState extends State<WelcomePage> {
         'Sign in',
         style: TextStyle(color: Colors.black),
       ),
-      onPressed: () async {
-        if (_formKey.currentState.validate()) {
-          setState(() => loading = true);
-          dynamic result =
-              await _auth.signInWithEmailAndPaswword(email, password);
-          if (result == null) {
-            setState(() => error = 'Could not sign in');
-            loading = false;
-          }
-        }
+      onPressed: () {
+        setState(() {
+          loading = true;
+        });
+        context.read<AuthenticationService>().signIn(
+              email: emailController.text,
+              password: passwordController.text,
+            );
       },
+      // onPressed: () async {
+      //   if (_formKey.currentState.validate()) {
+      //     setState(() => loading = true);
+      //     dynamic result = await context.read<AuthenticationService>().signIn(
+      //           email: emailController.text,
+      //           password: passwordController.text,
+      //         );
+      //     if (result == null) {
+      //       setState(() => error = 'Could not sign in');
+      //       loading = false;
+      //     }
+      //   }
+      // },
     );
   }
 }

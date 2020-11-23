@@ -4,6 +4,7 @@ import 'package:timywebapp/pages/dashboard.dart';
 import 'package:timywebapp/pages/schedule.dart';
 import 'package:timywebapp/pages/shows.dart';
 import 'package:timywebapp/authentication/auth_service.dart';
+import 'package:provider/provider.dart';
 
 class NavRail extends StatefulWidget {
   @override
@@ -12,7 +13,6 @@ class NavRail extends StatefulWidget {
 
 class _NavRailState extends State<NavRail> {
   int _selectedIndex = 0;
-  final AuthService _auth = AuthService();
 
   final position = [
     Dashboard(),
@@ -32,7 +32,7 @@ class _NavRailState extends State<NavRail> {
             padding: const EdgeInsets.all(8.0),
             child: FlatButton.icon(
               onPressed: () async {
-                await _auth.signOut();
+                await context.read<AuthenticationService>().signOut();
               },
               icon: Icon(Icons.person),
               color: Colors.white,

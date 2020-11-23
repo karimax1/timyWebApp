@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timywebapp/authentication/auth_service.dart';
-import 'package:timywebapp/authentication/wrapper.dart';
+import 'package:timywebapp/authentication/authenticationWrapper.dart';
 import 'package:timywebapp/models/userChannel.dart';
 
 Future<void> main() async {
@@ -14,11 +16,19 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<UserChannel>.value(
-      value: AuthService().user,
+    return MultiProvider(
+      providers: [
+        Provider<AuthenticationService>(
+          create: (_) => AuthenticationService(FirebaseAuth.instance),
+        ),
+        StreamProvider(
+          create: (context) =>
+              context.read<AuthenticationService>().authStateChanges,
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Wrapper(),
+        home: AuthenticationWrapper(),
         //home: TimeLayout(),
       ),
     );

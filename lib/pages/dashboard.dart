@@ -18,15 +18,24 @@ class Dashboard extends StatelessWidget {
               width: 120,
               color: Colors.grey[500],
             ),
-            Container(
-              height: 120,
-              width: 120,
-              color: Colors.grey[500],
+            SizedBox(
+              width: 20,
             ),
             Container(
               height: 120,
               width: 120,
               color: Colors.grey[500],
+            ),
+            SizedBox(
+              width: 20,
+            ),
+            Container(
+              height: 120,
+              width: 120,
+              color: Colors.grey[500],
+            ),
+            SizedBox(
+              width: 20,
             ),
             Container(
               height: 120,

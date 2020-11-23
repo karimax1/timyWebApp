@@ -1,37 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:timywebapp/models/userChannel.dart';
 
-class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+class AuthenticationService {
+  final FirebaseAuth _firebaseAuth;
 
-  UserChannel _userFromFirebaseUser(User user) {
-    return user != null ? UserChannel(id: user.uid) : null;
+  AuthenticationService(this._firebaseAuth);
+
+  Stream<User> get authStateChanges => _firebaseAuth.authStateChanges();
+
+  Future<void> signOut() async {
+    await _firebaseAuth.signOut();
   }
 
-  Stream<UserChannel> get user {
-    return _auth.authStateChanges.map(_userFromFirebaseUser);
-  }
-
-  // sign in with email & password
-  Future signInWithEmailAndPaswword(String email, String password) async {
+  Future<String> signIn({String email, String password}) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
-      User user = result.user;
-      return _userFromFirebaseUser(user);
-    } catch (e) {
-      print(e.toString());
-      return null;
-    }
-  }
-
-  // sign out
-  Future signOut() async {
-    try {
-      return await _auth.signOut();
-    } catch (e) {
-      print(e.toString());
-      return null;
+      return 'signded in';
+    } on FirebaseAuthException catch (e) {
+      return e.message;
     }
   }
 }

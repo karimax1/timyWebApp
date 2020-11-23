@@ -7,10 +7,10 @@ class UserChannel {
   final String channelName;
 
   UserChannel({
-    required this.id,
-    required this.email,
-    required this.logoUrl,
-    required this.channelName,
+    this.id,
+    this.email,
+    this.logoUrl,
+    this.channelName,
   });
 
   factory UserChannel.fromDocument(DocumentSnapshot doc) {
