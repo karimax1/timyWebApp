@@ -29,6 +29,16 @@ class _NavRailState extends State<NavRail> {
         backgroundColor: Colors.grey[900],
         actions: [
           Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              height: 60,
+              width: 60,
+              child: Image(
+                image: AssetImage('assets/mbc2.png'),
+              ),
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(8.0),
             child: FlatButton.icon(
               onPressed: () async {
@@ -46,7 +56,7 @@ class _NavRailState extends State<NavRail> {
           Container(
             width: 100,
             child: NavigationRail(
-              backgroundColor: Colors.grey[900],
+              backgroundColor: Colors.grey[800],
               elevation: 4,
               labelType: NavigationRailLabelType.all,
               groupAlignment: -0.5,
