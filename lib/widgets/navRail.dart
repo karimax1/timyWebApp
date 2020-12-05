@@ -14,14 +14,12 @@ class NavRail extends StatefulWidget {
 
 class _NavRailState extends State<NavRail> {
   int _selectedIndex = 0;
-
   final position = [
     Dashboard(),
     ChannelInfo(),
     Shows(),
     Schedule(),
   ];
-
   @override
   Widget build(BuildContext context) {
     final _channel = Provider.of<UserChannel>(context);
@@ -36,7 +34,7 @@ class _NavRailState extends State<NavRail> {
             child: Container(
               height: 60,
               width: 60,
-              //child: Image.network(_channel.logoLink),
+              child: Image.network(_channel.logoLink),
             ),
           ),
           Padding(
