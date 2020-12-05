@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:timywebapp/models/userChannel.dart';
 import 'package:timywebapp/pages/channelInfo.dart';
 import 'package:timywebapp/pages/dashboard.dart';
 import 'package:timywebapp/pages/schedule.dart';
@@ -23,6 +24,8 @@ class _NavRailState extends State<NavRail> {
 
   @override
   Widget build(BuildContext context) {
+    final _channel = Provider.of<UserChannel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Center(child: Text('Timytime')),
@@ -33,10 +36,12 @@ class _NavRailState extends State<NavRail> {
             child: Container(
               height: 60,
               width: 60,
-              child: Image(
-                image: AssetImage('assets/mbc2.png'),
-              ),
+              //child: Image.network(_channel.logoLink),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Text(_channel.channelName),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),

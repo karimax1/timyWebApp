@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth_web/firebase_auth_web.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,11 +26,13 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               context.read<AuthenticationService>().authStateChanges,
         ),
+        Provider<UserChannel>(
+          create: (_) => UserChannel(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         home: AuthenticationWrapper(),
-        //home: TimeLayout(),
       ),
     );
   }

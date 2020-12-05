@@ -1,23 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserChannel {
   final String id;
-  final String email;
-  final String logoUrl;
+  final String logoLink;
   final String channelName;
 
   UserChannel({
     this.id,
-    this.email,
-    this.logoUrl,
+    this.logoLink,
     this.channelName,
   });
 
   factory UserChannel.fromDocument(DocumentSnapshot doc) {
     return UserChannel(
       id: doc['id'],
-      email: doc['email'],
-      logoUrl: doc['logoLink'],
+      logoLink: doc['logoLink'],
       channelName: doc['channelName'],
     );
   }
