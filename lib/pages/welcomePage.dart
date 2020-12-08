@@ -147,19 +147,6 @@ class _WelcomePageState extends State<WelcomePage> {
               password: passwordController.text,
             );
       },
-      // onPressed: () async {
-      //   if (_formKey.currentState.validate()) {
-      //     setState(() => loading = true);
-      //     dynamic result = await context.read<AuthenticationService>().signIn(
-      //           email: emailController.text,
-      //           password: passwordController.text,
-      //         );
-      //     if (result == null) {
-      //       setState(() => error = 'Could not sign in');
-      //       loading = false;
-      //     }
-      //   }
-      // },
     );
   }
 }

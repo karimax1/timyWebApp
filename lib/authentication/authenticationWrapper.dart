@@ -11,10 +11,12 @@ class AuthenticationWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
-    print(firebaseUser);
+    final userId = context.watch<User>();
+    //final user = Provider.of<User>(context);
 
-    if (firebaseUser == null) {
+    print(userId);
+
+    if (userId == null) {
       return WelcomePage();
     } else {
       return NavRail();
