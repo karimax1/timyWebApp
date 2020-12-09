@@ -2,44 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserChannelLink {
   final String id;
-  final String logoLink;
+  final String email;
   final String channelName;
-  final DocumentReference documentReference;
+  final String genre;
+  final String logoLink;
 
   UserChannelLink({
     this.id,
-    this.logoLink,
+    this.email,
     this.channelName,
-    this.documentReference,
+    this.genre,
+    this.logoLink,
   });
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'logoLink': logoLink,
-      'channelName': channelName,
-    };
-  }
-
-  static UserChannelLink fromDocument(DocumentSnapshot document) {
-    if (document == null || document.data == null) return null;
-
+  factory UserChannelLink.fromDocument(DocumentSnapshot data) {
     return UserChannelLink(
-      id: document.id,
-      channelName: document.data()['channelName'],
-      logoLink: document.data()['logoLink'],
-      documentReference: document.reference,
+      id: data.data()['id'],
+      logoLink: data.data()['logoLink'],
+      genre: data.data()['genre'],
+      channelName: data.data()['channelName'],
     );
-
-    // factory UserChannelLink.fromDocument(QueryDocumentSnapshot data) {
-    //   return UserChannelLink(
-    //     id: data.data()['id'],
-    //     logoLink: data.data()['logoLink'],
-    //     channelName: data.data()['channelName'],
-    //   );
-    // }
-    // final dummyData = [
-    //   {'id': 'Mbc2', 'channelName': 'MBC1'}
-    // ];
   }
+  // final dummyData = [
+  //   {'id': 'Mbc2', 'channelName': 'MBC1'}
+  // ];
 }

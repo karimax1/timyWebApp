@@ -58,5 +58,5 @@ class MyApp extends StatelessWidget {
   }
 
   CollectionReference linksCollection(String userId) =>
-      FirebaseFirestore.instance.collection('users/$userId');
+      FirebaseFirestore.instance.collection('users/');
 }
