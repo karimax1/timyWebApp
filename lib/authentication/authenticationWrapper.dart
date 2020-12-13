@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:timywebapp/widgets/navRail.dart';
+import 'package:timywebapp/pages/home_page.dart';
 import 'package:timywebapp/pages/welcomePage.dart';
 
 class AuthenticationWrapper extends StatelessWidget {
@@ -19,7 +19,7 @@ class AuthenticationWrapper extends StatelessWidget {
     if (userId == null) {
       return WelcomePage();
     } else {
-      return NavRail();
+      return HomePage();
     }
   }
 }

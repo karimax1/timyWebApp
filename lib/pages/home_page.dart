@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:timywebapp/authentication/auth_service.dart';
+import 'package:timywebapp/models/showModel.dart';
 import 'package:timywebapp/models/userChannelLink.dart';
 import 'package:timywebapp/pages/main_dashboard/channelInfo.dart';
 import 'package:timywebapp/pages/main_dashboard/dashboard.dart';
@@ -10,29 +11,30 @@ import 'package:timywebapp/pages/main_dashboard/schedule.dart';
 import 'package:timywebapp/pages/main_dashboard/shows.dart';
 
 final channelRef = FirebaseFirestore.instance.collection("users");
+final showRef = FirebaseFirestore.instance.collection("shows");
 
-class NavRail extends StatefulWidget {
+class HomePage extends StatefulWidget {
   final String profileId;
-  NavRail({this.profileId});
+  HomePage({this.profileId});
 
   @override
-  _NavRailState createState() => _NavRailState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _NavRailState extends State<NavRail> {
+class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
   final User user = FirebaseAuth.instance.currentUser;
   String userid;
+  int showsCount = 0;
 
   final position = [Dashboard(), ChannelInfo(), Shows(), Schedule()];
 
   @override
   void initState() {
-    //getChannels();
     userid = user.uid;
     getData(userid);
 
-    print(user.uid + " meeeee");
+    //print(user.uid + " meeeee");
 
     super.initState();
   }
@@ -44,9 +46,30 @@ class _NavRailState extends State<NavRail> {
       setState(() {
         doc = value;
       });
-      print(doc.data()["channelName"]);
+      //print(doc.data()["channelName"]);
     });
   }
+
+  getChannelShows() {
+    showRef.doc(userid).get().then((value) {
+      setState(() {
+        doc = value;
+      });
+    });
+  }
+
+  // getChannelShows() async {
+  //   QuerySnapshot snapshot = await showRef
+  //       .doc(userid)
+  //       .collection('shows')
+  //       .orderBy('timestamp', descending: true)
+  //       .get();
+  //   setState(() {
+
+  //     showsCount = snapshot.docs.length;
+  //     showRef = snapshot.docs.map((doc) => ShowModel.fromDocument(doc)).toList();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -55,8 +78,6 @@ class _NavRailState extends State<NavRail> {
         create: (_) => _channelData,
         child: Builder(
           builder: (context) {
-            //final channelData = Provider.of<List<UserChannelLink>>(context);
-
             if (doc == null) {
               return Scaffold(
                 body: Container(child: Center(child: Text("Loading..."))),
@@ -78,7 +99,7 @@ class _NavRailState extends State<NavRail> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: Text(doc.data()["broadcastRegion"]),
+                    child: Text(doc.data()["channelName"]),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -148,3 +169,13 @@ class _NavRailState extends State<NavRail> {
         ));
   }
 }
+
+// Container circularProgress() {
+//   return Container(
+//     alignment: Alignment.center,
+//     padding: EdgeInsets.only(top: 10.0),
+//     child: CircularProgressIndicator(
+//       valueColor: AlwaysStoppedAnimation(Colors.purple),
+//     ),
+//   );
+// }

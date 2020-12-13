@@ -1,16 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 
 class UserChannelLink {
   final String id;
   final String logoLink;
   final String channelName;
-  final DocumentReference documentReference;
 
   UserChannelLink({
     this.id,
     this.logoLink,
     this.channelName,
-    this.documentReference,
   });
 
   Map<String, dynamic> toMap() {
@@ -28,7 +27,6 @@ class UserChannelLink {
       id: document.id,
       channelName: document.data()['channelName'],
       logoLink: document.data()['logoLink'],
-      documentReference: document.reference,
     );
 
     // factory UserChannelLink.fromDocument(QueryDocumentSnapshot data) {
@@ -41,5 +39,13 @@ class UserChannelLink {
     // final dummyData = [
     //   {'id': 'Mbc2', 'channelName': 'MBC1'}
     // ];
+  }
+
+  static fromMap(Map<String, dynamic> data) {
+    return {
+      'id': id,
+      'logoLink': logoLink,
+      'channelName': channelName,
+    };
   }
 }

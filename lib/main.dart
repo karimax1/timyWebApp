@@ -24,10 +24,16 @@ class MyApp extends StatelessWidget {
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
+        Provider<UserChannelLink>(
+          create: (_) => UserChannelLink(),
+        ),
         StreamProvider<User>(
           create: (context) =>
               context.read<AuthenticationService>().authStateChanges,
-          initialData: null,
+          //initialData: null,
+        ),
+        StreamProvider<List<UserChannelLink>>(
+          create: (context) => streamOfUsers(),
         ),
         ProxyProvider<User, CollectionReference>(
             update: (_, user, __) => linksCollection(user?.uid)),
@@ -58,5 +64,11 @@ class MyApp extends StatelessWidget {
   }
 
   CollectionReference linksCollection(String userId) =>
-      FirebaseFirestore.instance.collection('users/$userId');
+      FirebaseFirestore.instance.collection('users/');
+
+  Stream<List<UserChannelLink>> streamOfUsers() {
+    var ref = FirebaseFirestore.instance.collection('users');
+    return ref.snapshots().map((list) =>
+        list.docs.map((doc) => UserChannelLink.fromDocument(doc)).toList());
+  }
 }
