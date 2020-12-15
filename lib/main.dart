@@ -6,8 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:timywebapp/authentication/auth_service.dart';
 import 'package:timywebapp/authentication/authenticationWrapper.dart';
 import 'package:timywebapp/models/userChannelLink.dart';
-import 'package:timywebapp/pages/not_found_page.dart';
 import 'package:timywebapp/pages/main_dashboard/settings_page.dart';
+import 'package:timywebapp/pages/not_found_page.dart';
 
 Future<void> main() async {
   Provider.debugCheckInvalidValueType = null;
@@ -24,16 +24,14 @@ class MyApp extends StatelessWidget {
         Provider<AuthenticationService>(
           create: (_) => AuthenticationService(FirebaseAuth.instance),
         ),
-        Provider<UserChannelLink>(
-          create: (_) => UserChannelLink(),
-        ),
         StreamProvider<User>(
           create: (context) =>
               context.read<AuthenticationService>().authStateChanges,
-          //initialData: null,
+          initialData: null,
         ),
-        StreamProvider<List<UserChannelLink>>(
-          create: (context) => streamOfUsers(),
+        StreamProvider<UserChannelLink>(
+          create: (context) =>
+              context.read<AuthenticationService>().streamData(),
         ),
         ProxyProvider<User, CollectionReference>(
             update: (_, user, __) => linksCollection(user?.uid)),
@@ -65,10 +63,4 @@ class MyApp extends StatelessWidget {
 
   CollectionReference linksCollection(String userId) =>
       FirebaseFirestore.instance.collection('users/');
-
-  Stream<List<UserChannelLink>> streamOfUsers() {
-    var ref = FirebaseFirestore.instance.collection('users');
-    return ref.snapshots().map((list) =>
-        list.docs.map((doc) => UserChannelLink.fromDocument(doc)).toList());
-  }
 }

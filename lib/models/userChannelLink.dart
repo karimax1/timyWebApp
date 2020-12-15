@@ -28,24 +28,5 @@ class UserChannelLink {
       channelName: document.data()['channelName'],
       logoLink: document.data()['logoLink'],
     );
-
-    // factory UserChannelLink.fromDocument(QueryDocumentSnapshot data) {
-    //   return UserChannelLink(
-    //     id: data.data()['id'],
-    //     logoLink: data.data()['logoLink'],
-    //     channelName: data.data()['channelName'],
-    //   );
-    // }
-    // final dummyData = [
-    //   {'id': 'Mbc2', 'channelName': 'MBC1'}
-    // ];
-  }
-
-  static fromMap(Map<String, dynamic> data) {
-    return {
-      'id': id,
-      'logoLink': logoLink,
-      'channelName': channelName,
-    };
   }
 }
